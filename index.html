@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CELINK</title>
+<style>
+  :root { --bg:#05070a; --card:#0f1620; --borda:#2a3a4d; --txt:#ffffff; --mudo:#9fb3c8;
+          --ok:#3dff8b; --warn:#ffd23d; --err:#ff4d4d; }
+  * { box-sizing:border-box; margin:0; }
+  html, body { height:100%; background:var(--bg); color:var(--txt);
+               font-family:Arial, Helvetica, sans-serif; overflow:hidden; }
+  body { display:flex; flex-direction:column; padding:3vh 3vw; gap:3vh; }
+  header { display:flex; justify-content:space-between; align-items:center; }
+  h1 { font-size:5vh; letter-spacing:.2em; }
+  #relogio { font-size:5vh; color:var(--mudo); }
+  #status { display:flex; align-items:center; gap:2vw; background:var(--card);
+            border:.4vh solid var(--borda); border-radius:2vh; padding:3vh 3vw; }
+  #bolinha { width:7vh; height:7vh; border-radius:50%; background:var(--mudo); flex:none; }
+  #statusTxt { font-size:8vh; font-weight:bold; }
+  #sub { font-size:3vh; color:var(--mudo); margin-top:.5vh; }
+  #metricas { display:grid; grid-template-columns:repeat(4,1fr); gap:2vw; }
+  .m { background:var(--card); border:.4vh solid var(--borda); border-radius:2vh;
+       padding:3vh 2vw; text-align:center; }
+  .m .nome { font-size:3.2vh; color:var(--mudo); text-transform:uppercase; letter-spacing:.1em; }
+  .m .valor { font-size:10vh; font-weight:bold; margin-top:1vh; }
+  .m.warn .valor { color:var(--warn); } .m.err .valor { color:var(--err); }
+  #pend { flex:1; background:var(--card); border:.4vh solid var(--borda); border-radius:2vh;
+          padding:3vh 3vw; overflow:hidden; display:flex; flex-direction:column; }
+  #pend h2 { font-size:4vh; margin-bottom:2vh; }
+  ul { list-style:none; padding:0; overflow:hidden; }
+  li { font-size:4vh; padding:1.4vh 0; border-bottom:.2vh solid var(--borda); display:flex; gap:1.5vw; align-items:center; }
+  li:last-child { border-bottom:0; }
+  .tag { font-size:2.6vh; font-weight:bold; padding:.4vh 1.2vh; border-radius:1vh; text-transform:uppercase; flex:none; color:#000; }
+  .alta { background:var(--err); } .media, .média { background:var(--warn); } .baixa { background:var(--ok); }
+  .vazio { color:var(--ok); font-size:4vh; }
+  #rodape { font-size:2.8vh; color:var(--mudo); display:flex; justify-content:space-between; }
+  #erro { color:var(--err); }
+</style>
+</head>
+<body>
+  <header><h1>CELINK</h1><div id="relogio">--:--</div></header>
+
+  <section id="status">
+    <div id="bolinha"></div>
+    <div>
+      <div id="statusTxt">Carregando…</div>
+      <div id="sub"></div>
+    </div>
+  </section>
+
+  <section id="metricas">
+    <div class="m" id="mCpu"><div class="nome">CPU</div><div class="valor">--</div></div>
+    <div class="m" id="mRam"><div class="nome">RAM</div><div class="valor">--</div></div>
+    <div class="m" id="mDisco"><div class="nome">Disco</div><div class="valor">--</div></div>
+    <div class="m" id="mUp"><div class="nome">Uptime</div><div class="valor">--</div></div>
+  </section>
+
+  <section id="pend">
+    <h2>Pendências abertas</h2>
+    <ul id="lista"></ul>
+  </section>
+
+  <footer id="rodape"><span id="atualizado">—</span><span id="erro"></span></footer>
+
+<script>
+(function () {
+  var URL_API = "https://script.google.com/macros/s/AKfycbxylUymosZktilEMy-2Rnts1QzR3Eu1X2fUG7SjEHuoN6JmsWK3XCLpR7zABOkj46SENQ/exec";
+  var INTERVALO_MS = 30000;
+  var LIMITE_DESATUALIZADO_MIN = 15;
+
+  function $(id) { return document.getElementById(id); }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+  function relogio() {
+    var d = new Date();
+    $("relogio").textContent = pad(d.getHours()) + ":" + pad(d.getMinutes());
+  }
+
+  function setMetrica(id, valor, sufixo, warn, err) {
+    var el = $(id);
+    el.className = "m" + (valor !== null && valor >= err ? " err" : valor !== null && valor >= warn ? " warn" : "");
+    el.querySelector(".valor").textContent = valor === null ? "--" : valor.toFixed(1).replace(".0", "") + sufixo;
+  }
+
+  function num(v) { v = parseFloat(v); return isNaN(v) ? null : v; }
+
+  function desenhar(d) {
+    var s = d.servidor || {}, m = s.metricas || {};
+    var minutos = d.atualizado_em ? (Date.now() - new Date(d.atualizado_em).getTime()) / 60000 : null;
+    var desatualizado = minutos !== null && minutos > LIMITE_DESATUALIZADO_MIN;
+    var status = (s.status || "DESCONHECIDO").toUpperCase();
+    var cor = status === "ONLINE" && !desatualizado ? "var(--ok)" : desatualizado ? "var(--warn)" : "var(--err)";
+
+    $("bolinha").style.background = cor;
+    $("statusTxt").style.color = cor;
+    $("statusTxt").textContent = (s.nome || "CELVIEW") + " — " + (desatualizado ? "SEM DADOS RECENTES" : status);
+    $("sub").textContent = s.resumo_voz || "";
+
+    setMetrica("mCpu", num(m.cpu), "%", 70, 90);
+    setMetrica("mRam", num(m.ram), "%", 75, 90);
+    setMetrica("mDisco", num(m.disco), "%", 80, 90);
+    $("mUp").querySelector(".valor").textContent = m.uptime || "--";
+
+    var ul = $("lista");
+    ul.innerHTML = "";
+    var p = Array.isArray(d.pendencias) ? d.pendencias : [];
+    if (!p.length) {
+      var v = document.createElement("li");
+      v.className = "vazio";
+      v.textContent = "Nenhuma pendência. Tudo em dia!";
+      ul.appendChild(v);
+    }
+    p.slice(0, 8).forEach(function (it) {
+      var li = document.createElement("li");
+      var tag = document.createElement("span");
+      var prio = String(it.prioridade || "").toLowerCase();
+      tag.className = "tag " + prio;
+      tag.textContent = prio || "—";
+      var txt = document.createElement("span");
+      txt.textContent = it.tarefa || "";
+      li.appendChild(tag);
+      li.appendChild(txt);
+      ul.appendChild(li);
+    });
+
+    $("atualizado").textContent = "Atualizado em: " + (d.atualizado_em ? new Date(d.atualizado_em).toLocaleString("pt-BR") : "—");
+    $("erro").textContent = "";
+  }
+
+  function buscar() {
+    fetch(URL_API, { redirect: "follow", cache: "no-store" })
+      .then(function (r) { if (!r.ok) { throw new Error("HTTP " + r.status); } return r.json(); })
+      .then(desenhar)
+      .catch(function (e) { $("erro").textContent = "Sem conexão com a central (" + e.message + ")"; });
+  }
+
+  // Selecionar com o controle do Fire TV entra em tela cheia
+  document.addEventListener("click", function () {
+    var el = document.documentElement;
+    if (!document.fullscreenElement && el.requestFullscreen) { el.requestFullscreen(); }
+  });
+
+  relogio(); setInterval(relogio, 10000);
+  buscar(); setInterval(buscar, INTERVALO_MS);
+})();
+</script>
+</body>
+</html>
