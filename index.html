@@ -19,6 +19,14 @@
   #bolinha { width:7vh; height:7vh; border-radius:50%; background:var(--mudo); flex:none; }
   #statusTxt { font-size:8vh; font-weight:bold; }
   #sub { font-size:3vh; color:var(--mudo); margin-top:.5vh; }
+  .ico { width:9vh; height:9vh; flex:none; border-radius:2vh; display:grid; place-items:center;
+         background:rgba(61,255,139,.08); border:.3vh solid rgba(61,255,139,.3); }
+  .ico svg { width:60%; height:60%; fill:none; stroke:var(--ok); stroke-width:1.8;
+             stroke-linecap:round; stroke-linejoin:round; transition:stroke .4s; }
+  #bot { display:flex; align-items:center; gap:2vw; background:var(--card);
+         border:.4vh solid var(--borda); border-radius:2vh; padding:2.5vh 3vw; }
+  #botTxt { font-size:5vh; font-weight:bold; }
+  #botSub { font-size:2.8vh; color:var(--mudo); margin-top:.5vh; }
   #metricas { display:grid; grid-template-columns:repeat(4,1fr); gap:2vw; }
   .m { background:var(--card); border:.4vh solid var(--borda); border-radius:2vh;
        padding:3vh 2vw; text-align:center; }
@@ -42,10 +50,19 @@
   <header><h1>CELINK</h1><div id="relogio">--:--</div></header>
 
   <section id="status">
+    <div class="ico" id="srvIco"><svg viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="6" rx="1.5"/><rect x="4" y="14.5" width="16" height="6" rx="1.5"/><path d="M8 6.5h.01M8 17.5h.01M12 6.5h4M12 17.5h4"/></svg></div>
     <div id="bolinha"></div>
     <div>
       <div id="statusTxt">Carregando…</div>
       <div id="sub"></div>
+    </div>
+  </section>
+
+  <section id="bot">
+    <div class="ico" id="botIco"><svg viewBox="0 0 24 24"><path d="M4 19.5l1.3-3.9A8 8 0 1 1 8.2 18.6z"/><path d="M9.2 8.8c0 2.4 2.6 5 5 5l1-1.2-1.8-1-.9.9c-.9-.4-1.7-1.2-2.1-2.1l.9-.9-1-1.8z"/></svg></div>
+    <div>
+      <div id="botTxt">Bot WhatsApp: verificando…</div>
+      <div id="botSub"></div>
     </div>
   </section>
 
@@ -85,6 +102,23 @@
 
   function num(v) { v = parseFloat(v); return isNaN(v) ? null : v; }
 
+  function desenharBot(s) {
+    var bot = String(s.bot_whatsapp || "INDETERMINADO").toUpperCase();
+    var cor = bot === "UP" ? "var(--ok)" : bot === "DOWN" ? "var(--err)" : "var(--warn)";
+    var texto = bot === "UP" ? "Bot WhatsApp: CONECTADO"
+              : bot === "DOWN" ? "Bot WhatsApp: DESCONECTADO"
+              : "Bot WhatsApp: SEM CONFIRMAÇÃO";
+    $("botTxt").textContent = texto;
+    $("botTxt").style.color = cor;
+    $("botIco").style.borderColor = cor;
+    $("botIco").querySelector("svg").style.stroke = cor;
+    var sv = s.servicos || {};
+    var partes = [];
+    if (sv.celview) { partes.push("API " + sv.celview); }
+    if (sv["agente-ativacao"]) { partes.push("Agente " + sv["agente-ativacao"]); }
+    $("botSub").textContent = partes.join(" · ");
+  }
+
   function desenhar(d) {
     var s = d.servidor || {}, m = s.metricas || {};
     var minutos = d.atualizado_em ? (Date.now() - new Date(d.atualizado_em).getTime()) / 60000 : null;
@@ -94,8 +128,12 @@
 
     $("bolinha").style.background = cor;
     $("statusTxt").style.color = cor;
+    $("srvIco").style.borderColor = cor;
+    $("srvIco").querySelector("svg").style.stroke = cor;
     $("statusTxt").textContent = (s.nome || "CELVIEW") + " — " + (desatualizado ? "SEM DADOS RECENTES" : status);
     $("sub").textContent = s.resumo_voz || "";
+
+    desenharBot(s);
 
     setMetrica("mCpu", num(m.cpu), "%", 70, 90);
     setMetrica("mRam", num(m.ram), "%", 75, 90);
