@@ -44,6 +44,33 @@
   .vazio { color:var(--ok); font-size:4vh; }
   #rodape { font-size:2.8vh; color:var(--mudo); display:flex; justify-content:space-between; }
   #erro { color:var(--err); }
+
+  /* Celular: tamanhos fixos em px no lugar de vh/vw, que ficavam enormes em telas pequenas */
+  @media (max-width: 700px) {
+    html, body { height:auto; min-height:100%; overflow:auto; }
+    body { padding:16px; gap:14px; }
+    h1 { font-size:22px; letter-spacing:.12em; }
+    #relogio { font-size:18px; }
+    #status { padding:14px; gap:12px; border-radius:14px; border-width:2px; }
+    #bolinha { width:14px; height:14px; }
+    #statusTxt { font-size:22px; }
+    #sub { font-size:13px; }
+    .ico { width:40px; height:40px; border-radius:12px; border-width:2px; }
+    #bot { padding:14px; gap:12px; border-radius:14px; border-width:2px; }
+    #botTxt { font-size:17px; }
+    #botSub { font-size:13px; }
+    #metricas { grid-template-columns:repeat(2,1fr); gap:10px; }
+    .m { padding:12px; border-radius:14px; border-width:2px; }
+    .m .nome { font-size:11px; }
+    .m .valor { font-size:30px; margin-top:4px; }
+    #pend { flex:none; padding:14px; border-radius:14px; border-width:2px; overflow:visible; }
+    #pend h2 { font-size:16px; margin-bottom:8px; }
+    ul { overflow:visible; }
+    li { font-size:15px; padding:9px 0; gap:10px; }
+    .tag { font-size:11px; padding:3px 8px; }
+    .vazio { font-size:15px; }
+    #rodape { font-size:12px; flex-direction:column; gap:4px; text-align:center; }
+  }
 </style>
 </head>
 <body>
