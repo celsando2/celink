@@ -33,6 +33,18 @@
   .m .nome { font-size:3.2vh; color:var(--mudo); text-transform:uppercase; letter-spacing:.1em; }
   .m .valor { font-size:10vh; font-weight:bold; margin-top:1vh; }
   .m.warn .valor { color:var(--warn); } .m.err .valor { color:var(--err); }
+  /* Bot e funil dividem a mesma linha na TV, para não tirar espaço das pendências */
+  #linha2 { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:2vw; }
+  #linha2 #botTxt { font-size:4.4vh; white-space:nowrap; }
+  #funil { background:var(--card); border:.4vh solid var(--borda); border-radius:2vh; padding:1.4vh 1.5vw; }
+  #funil .grade { display:grid; grid-template-columns:repeat(3,1fr); gap:1vw; }
+  #funil { display:flex; flex-direction:column; justify-content:center; }
+  #funil .tit { grid-column:1 / -1; display:flex; align-items:baseline; gap:1vw; min-width:0; }
+  #funil h2 { font-size:2.6vh; white-space:nowrap; flex:none; }
+  #funilSub { font-size:1.8vh; color:var(--mudo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+  #funil .m { padding:.6vh .8vw; border-width:.3vh; display:flex; align-items:center; justify-content:space-between; gap:.6vw; text-align:left; }
+  #funil .m .nome { font-size:1.8vh; letter-spacing:.05em; line-height:1.2; }
+  #funil .m .valor { font-size:4.6vh; margin-top:0; }
   #pend { flex:1; background:var(--card); border:.4vh solid var(--borda); border-radius:2vh;
           padding:3vh 3vw; overflow:hidden; display:flex; flex-direction:column; }
   #pend h2 { font-size:4vh; margin-bottom:2vh; }
@@ -63,6 +75,17 @@
     .m { padding:12px; border-radius:14px; border-width:2px; }
     .m .nome { font-size:11px; }
     .m .valor { font-size:30px; margin-top:4px; }
+    #linha2 { grid-template-columns:1fr; gap:14px; }
+    #linha2 #botTxt { font-size:17px; white-space:normal; }
+    #funil { padding:14px; border-radius:14px; border-width:2px; }
+    #funil h2 { font-size:16px; }
+    #funil .grade { gap:8px; }
+    #funil .tit { display:block; }
+    #funilSub { white-space:normal; }
+    #funil .m { padding:10px 6px; border-width:2px; display:block; text-align:center; }
+    #funil .m .nome { font-size:11px; }
+    #funil .m .valor { font-size:26px; }
+    #funilSub { font-size:12px; margin-top:4px; }
     #pend { flex:none; padding:14px; border-radius:14px; border-width:2px; overflow:visible; }
     #pend h2 { font-size:16px; margin-bottom:8px; }
     ul { overflow:visible; }
@@ -85,6 +108,7 @@
     </div>
   </section>
 
+  <div id="linha2">
   <section id="bot">
     <div class="ico" id="botIco"><svg viewBox="0 0 24 24"><path d="M4 19.5l1.3-3.9A8 8 0 1 1 8.2 18.6z"/><path d="M9.2 8.8c0 2.4 2.6 5 5 5l1-1.2-1.8-1-.9.9c-.9-.4-1.7-1.2-2.1-2.1l.9-.9-1-1.8z"/></svg></div>
     <div>
@@ -92,6 +116,16 @@
       <div id="botSub"></div>
     </div>
   </section>
+
+  <section id="funil">
+    <div class="grade">
+      <div class="tit"><h2>Funil da campanha · 3 dias</h2><div id="funilSub"></div></div>
+      <div class="m" id="fNovos"><div class="nome">Novos (anúncio)</div><div class="valor">--</div></div>
+      <div class="m" id="fTestes"><div class="nome">Teste grátis</div><div class="valor">--</div></div>
+      <div class="m" id="fFechados"><div class="nome">Fecharam (PIX)</div><div class="valor">--</div></div>
+    </div>
+  </section>
+  </div>
 
   <section id="metricas">
     <div class="m" id="mCpu"><div class="nome">CPU</div><div class="valor">--</div></div>
@@ -146,8 +180,22 @@
     $("botSub").textContent = partes.join(" · ");
   }
 
+  function desenharFunil(f) {
+    var vazio = !f || typeof f !== "object";
+    var p3 = (f && f.d3) || {}, hoje = (f && f.hoje) || {}, total = (f && f.total) || {};
+    function n(v) { v = parseInt(v, 10); return isNaN(v) ? 0 : v; }
+    $("fNovos").querySelector(".valor").textContent = vazio ? "--" : n(p3.novos);
+    $("fTestes").querySelector(".valor").textContent = vazio ? "--" : n(p3.testes);
+    $("fFechados").querySelector(".valor").textContent = vazio ? "--" : n(p3.fechados);
+    $("funilSub").textContent = vazio ? "Sem dados do funil ainda."
+      : "Hoje: " + n(hoje.novos) + " novos · " + n(hoje.testes) + " testes · " + n(hoje.fechados) + " PIX"
+        + " | Todos (3 dias): " + n(p3.testes_geral) + " testes · " + n(p3.fechados_geral) + " PIX"
+        + " | Total: " + n(total.novos) + " novos · " + n(total.fechados) + " PIX";
+  }
+
   function desenhar(d) {
     var s = d.servidor || {}, m = s.metricas || {};
+    desenharFunil(s.funil);
     var minutos = d.atualizado_em ? (Date.now() - new Date(d.atualizado_em).getTime()) / 60000 : null;
     var desatualizado = minutos !== null && minutos > LIMITE_DESATUALIZADO_MIN;
     var status = (s.status || "DESCONHECIDO").toUpperCase();
