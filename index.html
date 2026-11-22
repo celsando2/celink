@@ -10,15 +10,17 @@
   * { box-sizing:border-box; margin:0; }
   html, body { height:100%; background:var(--bg); color:var(--txt);
                font-family:Arial, Helvetica, sans-serif; overflow:hidden; }
-  body { display:flex; flex-direction:column; padding:3vh 3vw; gap:3vh; }
+  body { display:flex; flex-direction:column; padding:2.5vh 3vw; gap:2vh; }
   header { display:flex; justify-content:space-between; align-items:center; }
   h1 { font-size:5vh; letter-spacing:.2em; }
   #relogio { font-size:5vh; color:var(--mudo); }
   #status { display:flex; align-items:center; gap:2vw; background:var(--card);
-            border:.4vh solid var(--borda); border-radius:2vh; padding:3vh 3vw; }
+            border:.4vh solid var(--borda); border-radius:2vh; padding:2vh 3vw; }
   #bolinha { width:7vh; height:7vh; border-radius:50%; background:var(--mudo); flex:none; }
   #statusTxt { font-size:8vh; font-weight:bold; }
-  #sub { font-size:3vh; color:var(--mudo); margin-top:.5vh; }
+  #sub { font-size:3vh; color:var(--mudo); margin-top:.5vh; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #status > div:last-child { min-width:0; }
+  #mUp .valor { white-space:nowrap; font-size:7vh; line-height:10vh; }
   .ico { width:9vh; height:9vh; flex:none; border-radius:2vh; display:grid; place-items:center;
          background:rgba(61,255,139,.08); border:.3vh solid rgba(61,255,139,.3); }
   .ico svg { width:60%; height:60%; fill:none; stroke:var(--ok); stroke-width:1.8;
@@ -29,9 +31,9 @@
   #botSub { font-size:2.8vh; color:var(--mudo); margin-top:.5vh; }
   #metricas { display:grid; grid-template-columns:repeat(4,1fr); gap:2vw; }
   .m { background:var(--card); border:.4vh solid var(--borda); border-radius:2vh;
-       padding:3vh 2vw; text-align:center; }
+       padding:2vh 2vw; text-align:center; }
   .m .nome { font-size:3.2vh; color:var(--mudo); text-transform:uppercase; letter-spacing:.1em; }
-  .m .valor { font-size:10vh; font-weight:bold; margin-top:1vh; }
+  .m .valor { font-size:8.5vh; font-weight:bold; margin-top:.5vh; }
   .m.warn .valor { color:var(--warn); } .m.err .valor { color:var(--err); }
   /* Bot e funil dividem a mesma linha na TV, para não tirar espaço das pendências */
   #linha2 { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:2vw; }
@@ -46,10 +48,10 @@
   #funil .m .nome { font-size:1.8vh; letter-spacing:.05em; line-height:1.2; }
   #funil .m .valor { font-size:4.6vh; margin-top:0; }
   #pend { flex:1; background:var(--card); border:.4vh solid var(--borda); border-radius:2vh;
-          padding:3vh 3vw; overflow:hidden; display:flex; flex-direction:column; }
-  #pend h2 { font-size:4vh; margin-bottom:2vh; }
+          padding:2vh 3vw; overflow:hidden; display:flex; flex-direction:column; min-height:0; }
+  #pend h2 { font-size:3.6vh; margin-bottom:1vh; }
   ul { list-style:none; padding:0; overflow:hidden; }
-  li { font-size:4vh; padding:1.4vh 0; border-bottom:.2vh solid var(--borda); display:flex; gap:1.5vw; align-items:center; }
+  li { font-size:3.6vh; padding:1vh 0; border-bottom:.2vh solid var(--borda); display:flex; gap:1.5vw; align-items:center; }
   li:last-child { border-bottom:0; }
   .tag { font-size:2.6vh; font-weight:bold; padding:.4vh 1.2vh; border-radius:1vh; text-transform:uppercase; flex:none; color:#000; }
   .alta { background:var(--err); } .media, .média { background:var(--warn); } .baixa { background:var(--ok); }
@@ -66,7 +68,8 @@
     #status { padding:14px; gap:12px; border-radius:14px; border-width:2px; }
     #bolinha { width:14px; height:14px; }
     #statusTxt { font-size:22px; }
-    #sub { font-size:13px; }
+    #sub { font-size:13px; white-space:normal; }
+    #mUp .valor { font-size:30px; line-height:normal; white-space:normal; }
     .ico { width:40px; height:40px; border-radius:12px; border-width:2px; }
     #bot { padding:14px; gap:12px; border-radius:14px; border-width:2px; }
     #botTxt { font-size:17px; }
