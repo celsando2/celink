@@ -10,18 +10,18 @@
   * { box-sizing:border-box; margin:0; }
   html, body { height:100%; background:var(--bg); color:var(--txt);
                font-family:Arial, Helvetica, sans-serif; overflow:hidden; }
-  body { display:flex; flex-direction:column; padding:2.5vh 3vw; gap:2vh; }
+  body { display:flex; flex-direction:column; padding:1.6vh 3vw; gap:1.4vh; }
   header { display:flex; justify-content:space-between; align-items:center; }
-  h1 { font-size:5vh; letter-spacing:.2em; }
-  #relogio { font-size:5vh; color:var(--mudo); }
+  h1 { font-size:4vh; letter-spacing:.2em; }
+  #relogio { font-size:4vh; color:var(--mudo); }
   #status { display:flex; align-items:center; gap:2vw; background:var(--card);
-            border:.4vh solid var(--borda); border-radius:2vh; padding:2vh 3vw; }
-  #bolinha { width:7vh; height:7vh; border-radius:50%; background:var(--mudo); flex:none; }
-  #statusTxt { font-size:8vh; font-weight:bold; }
-  #sub { font-size:3vh; color:var(--mudo); margin-top:.5vh; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+            border:.4vh solid var(--borda); border-radius:2vh; padding:1.2vh 3vw; }
+  #bolinha { width:5vh; height:5vh; border-radius:50%; background:var(--mudo); flex:none; }
+  #statusTxt { font-size:6vh; font-weight:bold; }
+  #sub { font-size:2.4vh; color:var(--mudo); margin-top:.3vh; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   #status > div:last-child { min-width:0; }
-  #mUp .valor { white-space:nowrap; font-size:7vh; line-height:10vh; }
-  .ico { width:9vh; height:9vh; flex:none; border-radius:2vh; display:grid; place-items:center;
+  #mUp .valor { white-space:nowrap; font-size:5vh; line-height:normal; }
+  .ico { width:7vh; height:7vh; flex:none; border-radius:2vh; display:grid; place-items:center;
          background:rgba(61,255,139,.08); border:.3vh solid rgba(61,255,139,.3); }
   .ico svg { width:60%; height:60%; fill:none; stroke:var(--ok); stroke-width:1.8;
              stroke-linecap:round; stroke-linejoin:round; transition:stroke .4s; }
@@ -31,9 +31,9 @@
   #botSub { font-size:2.8vh; color:var(--mudo); margin-top:.5vh; }
   #metricas { display:grid; grid-template-columns:repeat(4,1fr); gap:2vw; }
   .m { background:var(--card); border:.4vh solid var(--borda); border-radius:2vh;
-       padding:2vh 2vw; text-align:center; }
-  .m .nome { font-size:3.2vh; color:var(--mudo); text-transform:uppercase; letter-spacing:.1em; }
-  .m .valor { font-size:8.5vh; font-weight:bold; margin-top:.5vh; }
+       padding:1vh 2vw; text-align:center; }
+  .m .nome { font-size:2.4vh; color:var(--mudo); text-transform:uppercase; letter-spacing:.1em; }
+  .m .valor { font-size:5.5vh; font-weight:bold; margin-top:.3vh; }
   .m.warn .valor { color:var(--warn); } .m.err .valor { color:var(--err); }
   /* Bot e funil dividem a mesma linha na TV, para não tirar espaço das pendências */
   #linha2 { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:2vw; }
@@ -47,6 +47,16 @@
   #funil .m { padding:.6vh .8vw; border-width:.3vh; display:flex; align-items:center; justify-content:space-between; gap:.6vw; text-align:left; }
   #funil .m .nome { font-size:1.8vh; letter-spacing:.05em; line-height:1.2; }
   #funil .m .valor { font-size:4.6vh; margin-top:0; }
+  /* ROI da campanha (gasto x funil), dentro do cartão do funil */
+  #roi { margin-top:1vh; border-top:.2vh solid var(--borda); padding-top:1vh; }
+  #roi .tit { display:flex; align-items:center; gap:1vw; min-width:0; }
+  #roi h2 { font-size:2.4vh; white-space:nowrap; flex:none; }
+  #roiChip { font-size:1.7vh; font-weight:bold; padding:.3vh 1vh; border-radius:1vh; color:#000; background:var(--warn); white-space:nowrap; flex:none; }
+  #roi .grade4 { display:grid; grid-template-columns:repeat(4,1fr); gap:1vw; margin-top:.8vh; }
+  #funil #roi .m { display:block; text-align:center; padding:.3vh .6vw; border-width:.3vh; }
+  #funil #roi .m .nome { font-size:1.5vh; letter-spacing:.03em; }
+  #funil #roi .m .valor { font-size:3vh; margin-top:0; white-space:nowrap; }
+  #roiSub { font-size:1.6vh; color:var(--mudo); margin-top:.6vh; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   #pend { flex:1; background:var(--card); border:.4vh solid var(--borda); border-radius:2vh;
           padding:2vh 3vw; overflow:hidden; display:flex; flex-direction:column; min-height:0; }
   #pend h2 { font-size:3.6vh; margin-bottom:1vh; }
@@ -89,6 +99,15 @@
     #funil .m .nome { font-size:11px; }
     #funil .m .valor { font-size:26px; }
     #funilSub { font-size:12px; margin-top:4px; }
+    #roi { margin-top:12px; padding-top:12px; border-top-width:2px; }
+    #roi .tit { display:flex; flex-wrap:wrap; gap:8px; }
+    #roi h2 { font-size:16px; white-space:normal; }
+    #roiChip { font-size:11px; padding:3px 8px; border-radius:8px; }
+    #roi .grade4 { grid-template-columns:repeat(2,1fr); gap:8px; margin-top:10px; }
+    #funil #roi .m { padding:10px 6px; border-width:2px; }
+    #funil #roi .m .nome { font-size:11px; }
+    #funil #roi .m .valor { font-size:22px; }
+    #roiSub { font-size:12px; margin-top:8px; white-space:normal; }
     #pend { flex:none; padding:14px; border-radius:14px; border-width:2px; overflow:visible; }
     #pend h2 { font-size:16px; margin-bottom:8px; }
     ul { overflow:visible; }
@@ -126,6 +145,16 @@
       <div class="m" id="fNovos"><div class="nome">Novos (anúncio)</div><div class="valor">--</div></div>
       <div class="m" id="fTestes"><div class="nome">Teste grátis</div><div class="valor">--</div></div>
       <div class="m" id="fFechados"><div class="nome">Fecharam (PIX)</div><div class="valor">--</div></div>
+    </div>
+    <div id="roi" hidden>
+      <div class="tit"><h2 id="roiTit">ROI da campanha</h2><span id="roiChip">—</span></div>
+      <div class="grade4">
+        <div class="m"><div class="nome">Custo / contato</div><div class="valor" id="rCpl">--</div></div>
+        <div class="m"><div class="nome">Custo / teste</div><div class="valor" id="rCpt">--</div></div>
+        <div class="m"><div class="nome">Custo / cliente</div><div class="valor" id="rCac">--</div></div>
+        <div class="m"><div class="nome">Retorno</div><div class="valor" id="rRoas">--</div></div>
+      </div>
+      <div id="roiSub"></div>
     </div>
   </section>
   </div>
@@ -196,9 +225,33 @@
         + " | Total: " + n(total.novos) + " novos · " + n(total.fechados) + " PIX";
   }
 
+  // ROI da campanha: gasto informado x funil. Mostra a campanha em andamento (ou a última).
+  var ROI_ROTULO = { aguardar: "AGUARDAR DADOS", escalar: "VALE A PENA", ajustar: "AJUSTAR", pausar: "PAUSAR" };
+  var ROI_COR = { aguardar: "var(--warn)", escalar: "var(--ok)", ajustar: "var(--warn)", pausar: "var(--err)" };
+  function brl(v) { v = parseFloat(v); return isNaN(v) ? "—" : "R$ " + v.toFixed(2).replace(".", ","); }
+  function desenharRoi(lista) {
+    var c = null;
+    (Array.isArray(lista) ? lista : []).forEach(function (x) { if (!c || x.ativa || !c.ativa) { c = x; } });
+    $("roi").hidden = !c;
+    if (!c) { return; }
+    var st = ROI_ROTULO[c.status] ? c.status : "aguardar";
+    $("roiTit").textContent = "ROI · " + (c.nome || "campanha") + " · gasto " + brl(c.gasto);
+    $("roiChip").textContent = ROI_ROTULO[st];
+    $("roiChip").style.background = ROI_COR[st];
+    $("rCpl").textContent = brl(c.cpl);
+    $("rCpt").textContent = brl(c.custo_por_teste);
+    $("rCac").textContent = brl(c.cac);
+    $("rRoas").textContent = c.roas === null || c.roas === undefined ? "—" : parseFloat(c.roas).toFixed(2).replace(".", ",") + "x";
+    var pix = parseInt(c.pix_aguardando, 10) || 0;
+    $("roiSub").textContent = (c.leads || 0) + " contatos · " + (c.testes || 0) + " testes · " + (c.pagos || 0) + " clientes"
+      + (pix ? " · " + pix + " PIX a conferir (" + brl(c.pix_aguardando_valor) + ")" : "")
+      + (c.motivo ? " — " + c.motivo : "");
+  }
+
   function desenhar(d) {
     var s = d.servidor || {}, m = s.metricas || {};
     desenharFunil(s.funil);
+    desenharRoi(s.campanhas);
     var minutos = d.atualizado_em ? (Date.now() - new Date(d.atualizado_em).getTime()) / 60000 : null;
     var desatualizado = minutos !== null && minutos > LIMITE_DESATUALIZADO_MIN;
     var status = (s.status || "DESCONHECIDO").toUpperCase();
