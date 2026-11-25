@@ -15,9 +15,9 @@
   h1 { font-size:4vh; letter-spacing:.2em; }
   #relogio { font-size:4vh; color:var(--mudo); }
   #status { display:flex; align-items:center; gap:2vw; background:var(--card);
-            border:.4vh solid var(--borda); border-radius:2vh; padding:1.2vh 3vw; }
+            border:.4vh solid var(--borda); border-radius:2vh; padding:.6vh 3vw; }
   #bolinha { width:5vh; height:5vh; border-radius:50%; background:var(--mudo); flex:none; }
-  #statusTxt { font-size:6vh; font-weight:bold; }
+  #statusTxt { font-size:4.6vh; font-weight:bold; }
   #sub { font-size:2.4vh; color:var(--mudo); margin-top:.3vh; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   #status > div:last-child { min-width:0; }
   #mUp .valor { white-space:nowrap; font-size:5vh; line-height:normal; }
@@ -26,19 +26,24 @@
   .ico svg { width:60%; height:60%; fill:none; stroke:var(--ok); stroke-width:1.8;
              stroke-linecap:round; stroke-linejoin:round; transition:stroke .4s; }
   #bot { display:flex; align-items:center; gap:2vw; background:var(--card);
-         border:.4vh solid var(--borda); border-radius:2vh; padding:2.5vh 3vw; }
+         border:.4vh solid var(--borda); border-radius:2vh; padding:1.2vh 3vw; }
   #botTxt { font-size:5vh; font-weight:bold; }
   #botSub { font-size:2.8vh; color:var(--mudo); margin-top:.5vh; }
   #metricas { display:grid; grid-template-columns:repeat(4,1fr); gap:2vw; }
   .m { background:var(--card); border:.4vh solid var(--borda); border-radius:2vh;
        padding:1vh 2vw; text-align:center; }
+  #metricas .m { padding:.5vh 1.5vw; }
+  #metricas .m .nome { font-size:1.7vh; }
+  #metricas .m .valor { font-size:3.8vh; margin-top:0; }
   .m .nome { font-size:2.4vh; color:var(--mudo); text-transform:uppercase; letter-spacing:.1em; }
   .m .valor { font-size:5.5vh; font-weight:bold; margin-top:.3vh; }
   .m.warn .valor { color:var(--warn); } .m.err .valor { color:var(--err); }
   /* Bot e funil dividem a mesma linha na TV, para não tirar espaço das pendências */
-  #linha2 { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:2vw; }
-  #linha2 #botTxt { font-size:4.4vh; white-space:nowrap; }
-  #funil { background:var(--card); border:.4vh solid var(--borda); border-radius:2vh; padding:1.4vh 1.5vw; }
+  #linhas { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:1.2vh 2vw; }
+  #linha2, #linha3 { display:contents; }
+  #bot { order:1; } #aBot { order:2; } #funil { order:3; } #aFunil { order:4; }
+  #linha2 #botTxt, #linha3 #aBotTxt { font-size:3.6vh; white-space:nowrap; }
+  #funil { background:var(--card); border:.4vh solid var(--borda); border-radius:2vh; padding:.9vh 1.5vw; }
   #funil .grade { display:grid; grid-template-columns:repeat(3,1fr); gap:1vw; }
   #funil { display:flex; flex-direction:column; justify-content:center; }
   #funil .tit { grid-column:1 / -1; display:flex; align-items:baseline; gap:1vw; min-width:0; }
@@ -46,17 +51,17 @@
   #funilSub { font-size:1.8vh; color:var(--mudo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
   #funil .m { padding:.6vh .8vw; border-width:.3vh; display:flex; align-items:center; justify-content:space-between; gap:.6vw; text-align:left; }
   #funil .m .nome { font-size:1.8vh; letter-spacing:.05em; line-height:1.2; }
-  #funil .m .valor { font-size:4.6vh; margin-top:0; }
+  #funil .m .valor { font-size:3.4vh; margin-top:0; }
   /* ROI da campanha (gasto x funil), dentro do cartão do funil */
-  #roi { margin-top:1vh; border-top:.2vh solid var(--borda); padding-top:1vh; }
+  #roi { margin-top:.6vh; border-top:.2vh solid var(--borda); padding-top:.6vh; }
   #roi .tit { display:flex; align-items:center; gap:1vw; min-width:0; }
   #roi h2 { font-size:2.4vh; white-space:nowrap; flex:none; }
   #roiChip { font-size:1.7vh; font-weight:bold; padding:.3vh 1vh; border-radius:1vh; color:#000; background:var(--warn); white-space:nowrap; flex:none; }
   #roi .grade4 { display:grid; grid-template-columns:repeat(4,1fr); gap:1vw; margin-top:.8vh; }
   #funil #roi .m { display:block; text-align:center; padding:.3vh .6vw; border-width:.3vh; }
   #funil #roi .m .nome { font-size:1.5vh; letter-spacing:.03em; }
-  #funil #roi .m .valor { font-size:3vh; margin-top:0; white-space:nowrap; }
-  #roiSub { font-size:1.6vh; color:var(--mudo); margin-top:.6vh; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  #funil #$2 .m .valor { font-size:2.4vh; margin-top:0; white-space:nowrap; }
+  #roiSub { font-size:1.4vh; color:var(--mudo); margin-top:.3vh; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   #pend { flex:1; background:var(--card); border:.4vh solid var(--borda); border-radius:2vh;
           padding:2vh 3vw; overflow:hidden; display:flex; flex-direction:column; min-height:0; }
   #pend h2 { font-size:3.6vh; margin-bottom:1vh; }
@@ -68,6 +73,31 @@
   .vazio { color:var(--ok); font-size:4vh; }
   #rodape { font-size:2.8vh; color:var(--mudo); display:flex; justify-content:space-between; }
   #erro { color:var(--err); }
+
+  /* Ana Paula: mesmo cartão do funil/ROI da campanha */
+  #aBot { display:flex; align-items:center; gap:2vw; background:var(--card);
+         border:.4vh solid var(--borda); border-radius:2vh; padding:1.2vh 3vw; }
+  #aBotTxt { font-size:3.6vh; font-weight:bold; }
+  #aBotSub { font-size:2.8vh; color:var(--mudo); margin-top:.5vh; }
+  #aFunil { background:var(--card); border:.4vh solid var(--borda); border-radius:2vh; padding:.9vh 1.5vw; }
+  #aFunil .grade { display:grid; grid-template-columns:repeat(3,1fr); gap:1vw; }
+  #aFunil { display:flex; flex-direction:column; justify-content:center; }
+  #aFunil .tit { grid-column:1 / -1; display:flex; align-items:baseline; gap:1vw; min-width:0; }
+  #aFunil h2 { font-size:2.6vh; white-space:nowrap; flex:none; }
+  #aFunilSub { font-size:1.8vh; color:var(--mudo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+  #aFunil .m { padding:.6vh .8vw; border-width:.3vh; display:flex; align-items:center; justify-content:space-between; gap:.6vw; text-align:left; }
+  #aFunil .m .nome { font-size:1.8vh; letter-spacing:.05em; line-height:1.2; }
+  #aFunil .m .valor { font-size:3.4vh; margin-top:0; }
+  /* ROI da campanha (gasto x funil), dentro do cartão do funil */
+  #aRoi { margin-top:.6vh; border-top:.2vh solid var(--borda); padding-top:.6vh; }
+  #aRoi .tit { display:flex; align-items:center; gap:1vw; min-width:0; }
+  #aRoi h2 { font-size:2.4vh; white-space:nowrap; flex:none; }
+  #aRoiChip { font-size:1.7vh; font-weight:bold; padding:.3vh 1vh; border-radius:1vh; color:#000; background:var(--warn); white-space:nowrap; flex:none; }
+  #aRoi .grade4 { display:grid; grid-template-columns:repeat(4,1fr); gap:1vw; margin-top:.8vh; }
+  #aFunil #aRoi .m { display:block; text-align:center; padding:.3vh .6vw; border-width:.3vh; }
+  #aFunil #aRoi .m .nome { font-size:1.5vh; letter-spacing:.03em; }
+  #aFunil #$2 .m .valor { font-size:2.4vh; margin-top:0; white-space:nowrap; }
+  #aRoiSub { font-size:1.4vh; color:var(--mudo); margin-top:.3vh; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 
   /* Celular: tamanhos fixos em px no lugar de vh/vw, que ficavam enormes em telas pequenas */
   @media (max-width: 700px) {
@@ -88,8 +118,9 @@
     .m { padding:12px; border-radius:14px; border-width:2px; }
     .m .nome { font-size:11px; }
     .m .valor { font-size:30px; margin-top:4px; }
-    #linha2 { grid-template-columns:1fr; gap:14px; }
-    #linha2 #botTxt { font-size:17px; white-space:normal; }
+    #linhas { grid-template-columns:1fr; gap:14px; }
+    #bot { order:1; } #funil { order:2; } #aBot { order:3; } #aFunil { order:4; }
+    #linha2 #botTxt, #linha3 #aBotTxt { font-size:17px; white-space:normal; }
     #funil { padding:14px; border-radius:14px; border-width:2px; }
     #funil h2 { font-size:16px; }
     #funil .grade { gap:8px; }
@@ -115,6 +146,30 @@
     .tag { font-size:11px; padding:3px 8px; }
     .vazio { font-size:15px; }
     #rodape { font-size:12px; flex-direction:column; gap:4px; text-align:center; }
+    #aBot { padding:14px; gap:12px; border-radius:14px; border-width:2px; }
+    #aBotTxt { font-size:17px; }
+    #aBotSub { font-size:13px; }
+    #aFunil { padding:14px; border-radius:14px; border-width:2px; }
+    #aFunil h2 { font-size:16px; }
+    #aFunil .grade { gap:8px; }
+    #aFunil .tit { display:block; }
+    #aFunilSub { white-space:normal; }
+    #aFunil .m { padding:10px 6px; border-width:2px; display:block; text-align:center; }
+    #aFunil .m .nome { font-size:11px; }
+    #aFunil .m .valor { font-size:26px; }
+    #aFunilSub { font-size:12px; margin-top:4px; }
+    #aRoi { margin-top:12px; padding-top:12px; border-top-width:2px; }
+    #aRoi .tit { display:flex; flex-wrap:wrap; gap:8px; }
+    #aRoi h2 { font-size:16px; white-space:normal; }
+    #aRoiChip { font-size:11px; padding:3px 8px; border-radius:8px; }
+    #aRoi .grade4 { grid-template-columns:repeat(2,1fr); gap:8px; margin-top:10px; }
+    #aFunil #aRoi .m { padding:10px 6px; border-width:2px; }
+    #aFunil #aRoi .m .nome { font-size:11px; }
+    #aFunil #aRoi .m .valor { font-size:22px; }
+    #aRoiSub { font-size:12px; margin-top:8px; white-space:normal; }
+    #metricas .m { padding:12px; }
+    #metricas .m .nome { font-size:11px; }
+    #metricas .m .valor { font-size:30px; margin-top:4px; }
   }
 </style>
 </head>
@@ -130,6 +185,7 @@
     </div>
   </section>
 
+  <div id="linhas">
   <div id="linha2">
   <section id="bot">
     <div class="ico" id="botIco"><svg viewBox="0 0 24 24"><path d="M4 19.5l1.3-3.9A8 8 0 1 1 8.2 18.6z"/><path d="M9.2 8.8c0 2.4 2.6 5 5 5l1-1.2-1.8-1-.9.9c-.9-.4-1.7-1.2-2.1-2.1l.9-.9-1-1.8z"/></svg></div>
@@ -157,6 +213,37 @@
       <div id="roiSub"></div>
     </div>
   </section>
+  </div>
+
+  <div id="linha3">
+  <section id="aBot">
+    <div class="ico" id="aBotIco"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></div>
+    <div>
+      <div id="aBotTxt">Ana Paula: verificando…</div>
+      <div id="aBotSub">Bot AnaPaulaLash</div>
+    </div>
+  </section>
+
+  <section id="aFunil">
+    <div class="grade">
+      <div class="tit"><h2>Ana Paula · funil 3 dias</h2><div id="aFunilSub"></div></div>
+      <div class="m" id="aNovos"><div class="nome">Novas (anúncio)</div><div class="valor">--</div></div>
+      <div class="m" id="aTestes"><div class="nome">Pediram horário</div><div class="valor">--</div></div>
+      <div class="m" id="aFechados"><div class="nome">Agendaram</div><div class="valor">--</div></div>
+    </div>
+    <div id="aRoi" hidden>
+      <div class="tit"><h2 id="aRoiTit">ROI da campanha</h2><span id="aRoiChip">—</span></div>
+      <div class="grade4">
+        <div class="m"><div class="nome">Custo / contato</div><div class="valor" id="aCpl">--</div></div>
+        <div class="m"><div class="nome">Custo / pedido</div><div class="valor" id="aCpt">--</div></div>
+        <div class="m"><div class="nome">Custo / agend.</div><div class="valor" id="aCac">--</div></div>
+        <div class="m"><div class="nome">Retorno</div><div class="valor" id="aRoas">--</div></div>
+      </div>
+      <div id="aRoiSub"></div>
+    </div>
+  </section>
+  </div>
+
   </div>
 
   <section id="metricas">
@@ -212,46 +299,65 @@
     $("botSub").textContent = partes.join(" · ");
   }
 
-  function desenharFunil(f) {
+  var IDS_CEL = { novos: "fNovos", testes: "fTestes", fechados: "fFechados", sub: "funilSub", roi: "roi", tit: "roiTit", chip: "roiChip", cpl: "rCpl", cpt: "rCpt", cac: "rCac", roas: "rRoas", roiSub: "roiSub" };
+  var IDS_ANA = { novos: "aNovos", testes: "aTestes", fechados: "aFechados", sub: "aFunilSub", roi: "aRoi", tit: "aRoiTit", chip: "aRoiChip", cpl: "aCpl", cpt: "aCpt", cac: "aCac", roas: "aRoas", roiSub: "aRoiSub" };
+  var TXT_CEL = { novos: "novos", testes: "testes", fechados: "PIX", nome: "campanha", clientes: "clientes" };
+  var TXT_ANA = { novos: "novas", testes: "pedidos", fechados: "agend.", nome: "campanha", clientes: "agendamentos" };
+
+  function n(v) { v = parseInt(v, 10); return isNaN(v) ? 0 : v; }
+
+  function desenharFunil(f, ids, t) {
     var vazio = !f || typeof f !== "object";
     var p3 = (f && f.d3) || {}, hoje = (f && f.hoje) || {}, total = (f && f.total) || {};
-    function n(v) { v = parseInt(v, 10); return isNaN(v) ? 0 : v; }
-    $("fNovos").querySelector(".valor").textContent = vazio ? "--" : n(p3.novos);
-    $("fTestes").querySelector(".valor").textContent = vazio ? "--" : n(p3.testes);
-    $("fFechados").querySelector(".valor").textContent = vazio ? "--" : n(p3.fechados);
-    $("funilSub").textContent = vazio ? "Sem dados do funil ainda."
-      : "Hoje: " + n(hoje.novos) + " novos · " + n(hoje.testes) + " testes · " + n(hoje.fechados) + " PIX"
-        + " | Todos (3 dias): " + n(p3.testes_geral) + " testes · " + n(p3.fechados_geral) + " PIX"
-        + " | Total: " + n(total.novos) + " novos · " + n(total.fechados) + " PIX";
+    $(ids.novos).querySelector(".valor").textContent = vazio ? "--" : n(p3.novos);
+    $(ids.testes).querySelector(".valor").textContent = vazio ? "--" : n(p3.testes);
+    $(ids.fechados).querySelector(".valor").textContent = vazio ? "--" : n(p3.fechados);
+    $(ids.sub).textContent = vazio ? "Sem dados do funil ainda."
+      : "Hoje: " + n(hoje.novos) + " " + t.novos + " · " + n(hoje.testes) + " " + t.testes + " · " + n(hoje.fechados) + " " + t.fechados
+        + " | Todos (3 dias): " + n(p3.testes_geral) + " " + t.testes + " · " + n(p3.fechados_geral) + " " + t.fechados
+        + " | Total: " + n(total.novos) + " " + t.novos + " · " + n(total.fechados) + " " + t.fechados;
   }
 
   // ROI da campanha: gasto informado x funil. Mostra a campanha em andamento (ou a última).
   var ROI_ROTULO = { aguardar: "AGUARDAR DADOS", escalar: "VALE A PENA", ajustar: "AJUSTAR", pausar: "PAUSAR" };
   var ROI_COR = { aguardar: "var(--warn)", escalar: "var(--ok)", ajustar: "var(--warn)", pausar: "var(--err)" };
   function brl(v) { v = parseFloat(v); return isNaN(v) ? "—" : "R$ " + v.toFixed(2).replace(".", ","); }
-  function desenharRoi(lista) {
+  function desenharRoi(lista, ids, t) {
     var c = null;
     (Array.isArray(lista) ? lista : []).forEach(function (x) { if (!c || x.ativa || !c.ativa) { c = x; } });
-    $("roi").hidden = !c;
+    $(ids.roi).hidden = !c;
     if (!c) { return; }
     var st = ROI_ROTULO[c.status] ? c.status : "aguardar";
-    $("roiTit").textContent = "ROI · " + (c.nome || "campanha") + " · gasto " + brl(c.gasto);
-    $("roiChip").textContent = ROI_ROTULO[st];
-    $("roiChip").style.background = ROI_COR[st];
-    $("rCpl").textContent = brl(c.cpl);
-    $("rCpt").textContent = brl(c.custo_por_teste);
-    $("rCac").textContent = brl(c.cac);
-    $("rRoas").textContent = c.roas === null || c.roas === undefined ? "—" : parseFloat(c.roas).toFixed(2).replace(".", ",") + "x";
+    $(ids.tit).textContent = "ROI · " + (c.nome || "campanha") + " · gasto " + brl(c.gasto);
+    $(ids.chip).textContent = ROI_ROTULO[st];
+    $(ids.chip).style.background = ROI_COR[st];
+    $(ids.cpl).textContent = brl(c.cpl);
+    $(ids.cpt).textContent = brl(c.custo_por_teste);
+    $(ids.cac).textContent = brl(c.cac);
+    $(ids.roas).textContent = c.roas === null || c.roas === undefined ? "—" : parseFloat(c.roas).toFixed(2).replace(".", ",") + "x";
     var pix = parseInt(c.pix_aguardando, 10) || 0;
-    $("roiSub").textContent = (c.leads || 0) + " contatos · " + (c.testes || 0) + " testes · " + (c.pagos || 0) + " clientes"
+    $(ids.roiSub).textContent = (c.leads || 0) + " contatos · " + (c.testes || 0) + " " + t.testes + " · " + (c.pagos || 0) + " " + t.clientes
       + (pix ? " · " + pix + " PIX a conferir (" + brl(c.pix_aguardando_valor) + ")" : "")
       + (c.motivo ? " — " + c.motivo : "");
   }
 
+  function desenharAna(a) {
+    a = a || {};
+    var bot = String(a.bot_whatsapp || "INDETERMINADO").toUpperCase();
+    var cor = bot === "UP" ? "var(--ok)" : bot === "DOWN" ? "var(--err)" : "var(--warn)";
+    $("aBotTxt").textContent = bot === "UP" ? "Ana Paula: CONECTADO" : bot === "DOWN" ? "Ana Paula: DESCONECTADO" : "Ana Paula: SEM CONFIRMAÇÃO";
+    $("aBotTxt").style.color = cor;
+    $("aBotIco").style.borderColor = cor;
+    $("aBotIco").querySelector("svg").style.stroke = cor;
+    desenharFunil(a.funil, IDS_ANA, TXT_ANA);
+    desenharRoi(a.campanhas, IDS_ANA, TXT_ANA);
+  }
+
   function desenhar(d) {
     var s = d.servidor || {}, m = s.metricas || {};
-    desenharFunil(s.funil);
-    desenharRoi(s.campanhas);
+    desenharFunil(s.funil, IDS_CEL, TXT_CEL);
+    desenharRoi(s.campanhas, IDS_CEL, TXT_CEL);
+    desenharAna(s.ana_paula);
     var minutos = d.atualizado_em ? (Date.now() - new Date(d.atualizado_em).getTime()) / 60000 : null;
     var desatualizado = minutos !== null && minutos > LIMITE_DESATUALIZADO_MIN;
     var status = (s.status || "DESCONHECIDO").toUpperCase();
