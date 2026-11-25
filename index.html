@@ -6,7 +6,7 @@
 <title>CELINK</title>
 <style>
   :root { --bg:#05070a; --card:#0f1620; --borda:#2a3a4d; --txt:#ffffff; --mudo:#9fb3c8;
-          --ok:#3dff8b; --rose:#ff6fa8; --warn:#ffd23d; --err:#ff4d4d; }
+          --ok:#3dff8b; --warn:#ffd23d; --err:#ff4d4d; }
   * { box-sizing:border-box; margin:0; }
   html, body { height:100%; background:var(--bg); color:var(--txt);
                font-family:Arial, Helvetica, sans-serif; overflow:hidden; }
@@ -77,8 +77,6 @@
   /* Ana Paula: mesmo cartão do funil/ROI da campanha */
   #aBot { display:flex; align-items:center; gap:2vw; background:var(--card);
          border:.4vh solid var(--borda); border-radius:2vh; padding:1.2vh 3vw; }
-  #aBot .ico { background:rgba(255,111,168,.10); border-color:rgba(255,111,168,.45); }
-  #aBot .ico svg { stroke:var(--rose); }
   #aBotTxt { font-size:3.6vh; font-weight:bold; }
   #aBotSub { font-size:2.8vh; color:var(--mudo); margin-top:.5vh; }
   #aFunil { background:var(--card); border:.4vh solid var(--borda); border-radius:2vh; padding:.9vh 1.5vw; }
@@ -346,7 +344,7 @@
   function desenharAna(a) {
     a = a || {};
     var bot = String(a.bot_whatsapp || "INDETERMINADO").toUpperCase();
-    var cor = bot === "UP" ? "var(--rose)" : bot === "DOWN" ? "var(--err)" : "var(--warn)";
+    var cor = bot === "UP" ? "var(--ok)" : bot === "DOWN" ? "var(--err)" : "var(--warn)";
     $("aBotTxt").textContent = bot === "UP" ? "Ana Paula: CONECTADO" : bot === "DOWN" ? "Ana Paula: DESCONECTADO" : "Ana Paula: SEM CONFIRMAÇÃO";
     $("aBotTxt").style.color = cor;
     $("aBotIco").style.borderColor = cor;
